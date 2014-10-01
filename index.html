@@ -1,1 +1,55 @@
-Hi there
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+      textarea {
+        display: inherit;
+      }
+    </style>
+
+    <script>
+      var text;
+
+      $(function(){
+        $('#anonymize').click(function(){
+
+          text = $('#input').val();
+          text = whitespace(text);
+          $('#output').val(text);
+        })
+      });
+
+      var whitespace = function(input) {
+        input = input.trim();
+
+        // Get rid of tabs
+        input = input.replace(/\t/g, '');
+
+        // Change all periods (except those at the end of paragraphs) to have two spaces after them
+        input = input.replace(/\./g, '.  ');
+        input = input.replace(/\.(\t|[ ])+/g, '.  ');
+
+        // Remove multiple new lines
+        input = input.replace(/\n{2,}/g, '\n\n');
+
+        return input;
+      }
+    </script>
+  </head>
+  <body>
+
+  <h1>Input:</h1>
+  <textarea rows="30" cols="180" id="input" type="textarea">   Hello.               Today I am happy. Yep.Thats me!
+
+
+So happy.
+That happy guy</textarea>
+
+  <button id="anonymize" > Anonymize </button>
+
+  <h1>Output:</h1>
+  <textarea rows="30" cols="180" id="output" type="textarea"> </textarea>
+
+  </body>
+</html>
