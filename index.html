@@ -15,12 +15,15 @@
         $('#anonymize').click(function(){
 
           text = $('#input').val();
-          text = whitespace(text);
+          text = fixWhitespace(text);
+          text = fixContractions(text);
           $('#output').val(text);
+          triggerSpellChecker('#input');
+          triggerSpellChecker('#output');
         })
       });
 
-      var whitespace = function(input) {
+      var fixWhitespace = function(input) {
         input = input.trim();
 
         // Get rid of tabs
@@ -35,21 +38,109 @@
 
         return input;
       }
+
+      var fixContractions = function(input) {
+        var contractions = [
+          ['aren\'t', 'are not', 'am not'],
+          ['can\'t', 'cannot'],
+          ['could\'ve', 'could have'],
+          ['couldn\'t', 'could not'],
+          ['didn\'t', 'did not'],
+          ['doesn\'t', 'does not'],
+          ['don\'t', 'do not'],
+          ['hadn\'t', 'had not'],
+          ['hasn\'t', 'has not'],
+          ['haven\'t', 'have not'],
+          ['he\'d', 'he had', 'he would'],
+          ['he\'ll', 'he shall', 'he will'],
+          ['he\'s', 'he has', 'he is'],
+          ['how\'d', 'how did', 'how would'],
+          ['how\'ll', 'how will'],
+          ['how\'s', 'how has', 'how is', 'how does'],
+          ['I\'d', 'I had', 'I would'],
+          ['I\'ll', 'I shall', 'I will'],
+          ['I\'m', 'I am'],
+          ['I\'ve', 'I have'],
+          ['isn\'t', 'is not'],
+          ['it\'d', 'it had', 'it would'],
+          ['it\'ll', 'it shall', 'it will'],
+          ['it\'s', 'it has', 'it is'],
+          ['let\'s', 'let us'],
+          ['mightn\'t', 'might not'],
+          ['might\'ve', 'might have'],
+          ['mustn\'t', 'must not'],
+          ['must\'ve', 'must have'],
+          ['needn\'t', 'need not'],
+          ['not\'ve', 'not have'],
+          ['shan\'t', 'shall not'],
+          ['she\'d', 'she had', 'she would'],
+          ['she\'ll', 'she shall', 'she will'],
+          ['she\'s', 'she has', 'she is'],
+          ['should\'ve', 'should have'],
+          ['shouldn\'t', 'should not'],
+          ['that\'s', 'that has', 'that is'],
+          ['there\'d', 'there had', 'there would'],
+          ['there\'re', 'there are'],
+          ['there\'s', 'there has', 'there is'],
+          ['they\'d', 'they had', 'they would'],
+          ['they\'ll', 'they shall', 'they will'],
+          ['they\'re', 'they are'],
+          ['they\'ve', 'they have'],
+          ['wasn\'t', 'was not'],
+          ['we\'d', 'we had', 'we would'],
+          ['we\'ll', 'we will'],
+          ['we\'re', 'we are'],
+          ['we\'ve', 'we have'],
+          ['weren\'t', 'were not'],
+          ['what\'ll', 'what shall', 'what will'],
+          ['what\'re', 'what are'],
+          ['what\'s', 'what has', 'what is', 'what does'],
+          ['what\'ve', 'what have'],
+          ['when\'s', 'when has', 'when is'],
+          ['where\'d', 'where did'],
+          ['where\'s', 'where has', 'where is'],
+          ['where\'ve', 'where have'],
+          ['who\'d', 'who would', 'who had'],
+          ['who\'ll', 'who shall', 'who will'],
+          ['who\'re', 'who are'],
+          ['who\'s', 'who has', 'who is'],
+          ['who\'ve', 'who have'],
+          ['why\'ll', 'why will'],
+          ['why\'re', 'why are'],
+          ['why\'s', 'why has', 'why is'],
+          ['won\'t', 'will not'],
+          ['would\'ve', 'would have'],
+          ['wouldn\'t', 'would not'],
+          ['you\'d', 'you had', 'you would'],
+          ['you\'ll', 'you shall', 'you will'],
+          ['you\'re', 'you are'],
+          ['you\'ve', 'you have']
+        ];
+
+        return input;
+      }
+
+      var triggerSpellChecker = function(target){
+        // Trigger Chrome's spell checker - not sure about FF or IE
+        $(target).val($(target).val() + ' ');
+        $(target).focus();
+        $(target).blur();
+      }
     </script>
   </head>
   <body>
 
   <h1>Input:</h1>
-  <textarea rows="30" cols="180" id="input" type="textarea">   Hello.               Today I am happy. Yep.Thats me!
+  <textarea rows="30" cols="180" id="input" type="textarea" spellcheck="true">   Hello.               Today I am happy. Yep.Thats me!
 
 
 So happy.
-That happy guy</textarea>
+That happy guy asdfas asdf</textarea>
 
   <button id="anonymize" > Anonymize </button>
 
   <h1>Output:</h1>
-  <textarea rows="30" cols="180" id="output" type="textarea"> </textarea>
+  <textarea rows="30" cols="180" id="output" type="textarea" spellcheck="true"> </textarea>
 
   </body>
 </html>
